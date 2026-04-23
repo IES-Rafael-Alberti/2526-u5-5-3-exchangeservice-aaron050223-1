@@ -411,6 +411,31 @@ Identifica **al menos 3 casos de prueba de tu batería** y explica:
 
 Incluye enlaces a los tests correspondientes.
 
+#### RESPUESTA
+
+Caso 1: validación de cantidad igual a cero.
+
+- Clase de equivalencia: inválida.
+- Condición validada: la entrada, la cantidad debe ser positiva.
+- Representativo: cubre el límite inferior.
+
+https://github.com/IES-Rafael-Alberti/2526-u5-5-3-exchangeservice-aaron050223-1/blob/3b447a9d7d1a222aa4c34199cdf80f762f2b1071/src/test/kotlin/ExchangeServiceDesignedBatteryTest.kt#L30-L34
+
+Caso 2: conversión con tasa fija usando stub.
+
+- Clase de equivalencia: válida.
+- Condición validada: origen y destino distintos.
+
+https://github.com/IES-Rafael-Alberti/2526-u5-5-3-exchangeservice-aaron050223-1/blob/3b447a9d7d1a222aa4c34199cdf80f762f2b1071/src/test/kotlin/ExchangeServiceDesignedBatteryTest.kt#L65-L72
+
+Caso 3: conversión cuando no existe tasa usando mock.
+
+- Clase de equivalencia: válida.
+- Condición validada: fallo de la consulta.
+- Representativo: verifica la lógica del otro tipo de búsqueda.
+
+https://github.com/IES-Rafael-Alberti/2526-u5-5-3-exchangeservice-aaron050223-1/blob/3b447a9d7d1a222aa4c34199cdf80f762f2b1071/src/test/kotlin/ExchangeServiceDesignedBatteryTest.kt#L89-L95
+
 
 #### 🔹 2) CE f) Se han efectuado pruebas unitarias de clases y funciones
 
@@ -426,6 +451,13 @@ Justifica por qué este test cumple con el concepto de prueba unitaria según el
 
 Incluye enlace al test.
 
+#### RESPUESTA
+
+- Método probado: exchange.
+- Aislamiento: con un doble controlado con `MockK`, sin depender de datos reales.
+- Entrada y salida: entrada Money(10, "GBP") y moneda destino "USD"; salida esperada 12.
+
+https://github.com/IES-Rafael-Alberti/2526-u5-5-3-exchangeservice-aaron050223-1/blob/3b447a9d7d1a222aa4c34199cdf80f762f2b1071/src/test/kotlin/ExchangeServiceDesignedBatteryTest.kt#L65-L72
 
 #### 🔹 3) CE g) Se han implementado pruebas automáticas
 
@@ -442,6 +474,11 @@ Incluye enlace a:
 * configuración (build.gradle.kts o similar)
 * ejecución de tests
 
+#### RESPUESTA
+
+- Herramientas: Gradle, Kotest y MockK.
+- Configuración automática: el task y dependencias de los tests estan en [build.gradle.kts]
+- Ejecución: `./gradlew test`.
 
 #### 🔹 4) CE h) Se han documentado las incidencias detectadas
 
@@ -457,6 +494,13 @@ Relaciona esto con la importancia de documentar incidencias en el proceso de pru
 
 Incluye enlace al test implicado.
 
+#### RESPUESTA
+
+Incidencia: error al truncar decimales.
+
+- Test que lo detectó: conversión directa de 1.25 para importe 10, que devuelve 12.
+- Evidencia del test: [Test](src/test/kotlin/ExchangeServiceDesignedBatteryTest.kt#L71).
+- Solución: usar un round.
 
 #### 🔹 5) CE i) Se han utilizado dobles de prueba para aislar los componentes durante las pruebas
 
@@ -472,6 +516,25 @@ Relaciona tu explicación con la necesidad de reducir el acoplamiento en pruebas
 
 Incluye enlaces a los tests donde se utilicen.
 
+#### RESPUESTA
+
+Uso de stub:
+
+- Caso: tasa directa fija GBPUSD.
+- Objetivo: validar cálculo.
+- Evidencia: [ExchangeServiceDesignedBatteryTest.kt](src/test/kotlin/ExchangeServiceDesignedBatteryTest.kt#L65)
+
+Uso de spy:
+
+- Caso: uso de proveedor real en memoria con spy.
+- Objetivo: comprobar que se consulta exactamente USDEUR una vez.
+- Evidencia: [ExchangeServiceDesignedBatteryTest.kt](src/test/kotlin/ExchangeServiceDesignedBatteryTest.kt#L74)
+
+Uso de mock:
+
+- Caso: falla la tasa directa y se fuerza ruta cruzada.
+- Objetivo: comprobar casos de error y exito.
+- Evidencia: [ExchangeServiceDesignedBatteryTest.kt](src/test/kotlin/ExchangeServiceDesignedBatteryTest.kt#L89)
 
 ## Fuente conceptual
 
